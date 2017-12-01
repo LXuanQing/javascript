@@ -44,4 +44,15 @@ if(a===void (0)){
 //最后我们打印一下这两个的返回值
 console.log(void 0,void (0))    // undefined undefined
 
-// 4 数组sort方法
+// 4 数组sort方法，改变原数组
+// a-b输出从小到大排序，b-a输出从大到小排序
+// 原理：冒泡法排序，往最后冒
+var arr = [1,2,5,6,2,4]
+arr.sort((a,b) => {
+    return a - b 
+})
+// 打乱顺序
+arr.sort(() => {
+    return Math.random() - 0.5
+})
+console.log(arr)
