@@ -249,7 +249,11 @@ console.log(obj[a > 0 ? 'a' : 'b'])
 
 
 
-
+// 16 求数组的最值
+var arr = [1,5,7,3,5,0]
+var max = Math.max.apply(null,arr)
+var min = Math.min.apply(null,arr)
+console.log(min)
 
 
 
