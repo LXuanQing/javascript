@@ -125,10 +125,135 @@ function fn() {
 fn()
 // 谈到全局变量，需要注意那些用来临时存储大量数据的全局变量，确保在处理完这些数据后将其设置为null或重新赋值。
 // console.log打印的对象是不会被垃圾回收器回收的。
-
+// 减少全局变量的污染
+**** 值创建一个唯一的全局变量 var MYAPP = {} 别的变量都放在这个容器之下
 
 // 8 函数自调用
 !function test() {
     var a = 10
     // console.log(a)
 }()
+
+
+
+// 9 如果一个值是undefined，再去获取某个值就会报错，可用&&避免这种错误
+fight.a // undefined
+fight.a.b // throw error
+fight.a && fight.a.b
+
+
+// 10 hasOwnProperty如果对象拥有这个属性返回true，否则返回false。方法不会检查原型链
+Object.prototype.add = 3
+let obj = {
+    age: 1,
+    class: 3
+}
+
+console.log(obj.add)
+console.log(obj.hasOwnProperty('add'))
+
+
+// 11 for in 遍历对象，会列举对象所有的属性，包括原型的属性
+for(var name in obj) {
+    console.log(name)
+}
+// 而且for in 顺序也是不定的，如果确保特定的顺序出现，最好的办法是创建一数组，再用for 循环
+
+// 12 delete可删除对象的属性，不会删除原型对象的属性
+console.log(obj.age)
+delete obj.age
+console.log(obj.age)
+
+
+
+// 13 函数调用的模式
+// *** 方法调用模式，作为的对象的方法来调用，this指向该对象，通过this能从对象中取值或对对象进行修改
+var obj = {
+    test: function() {
+        console.log(this) // 这个this指向obj
+    }
+}
+obj.test()
+
+// *** 函数调用模式  通过函数的方法名直接调用，里面的this指向window
+var obj = {
+    age: 2,
+    test: function() {
+        console.log(this) // 这个this指向obj
+        function fn() {
+            console.log(this) // 这个this指向window
+        }
+        fn()
+    }
+}
+obj.test()
+
+// *** 构造器调用模式  通过new来调用，this指向那个新对象上，同时会创建一个连接到该函数的prototype成员的新对象
+var Test = function() {
+    this.age = 4
+}
+Test.prototype.class = 3
+var result = new Test()
+console.log(result.class)
+
+// **** Apply调用模式 第一个参数是绑定的this，第二个是参数数组
+function test() {
+    console.log(this)
+}
+test.apply({},[])
+
+
+// 函数的arguments，是实参组成的数组，并不是一个真正的数组，是类似数组的对象，只有一个length属性
+
+
+// 14 throw 中断程序的执行，会抛出一个exception对象，该对象有个识别异常信息的name和messgae属性
+// 该exception对象会传递给try语句的catch从句
+// 使用try catch 不会中断程序的执行
+
+throw {
+    name: "琴",
+    message: "错误信息",
+    age: 3
+}
+console.log("go on")
+
+try {
+    throw {
+        name: "琴",
+        message: "错误信息",
+        age: 3
+    }
+} catch(e) {
+    console.log(e)
+}
+
+try {
+    console.log(s)
+} catch (e) {
+    console.log(e)
+}
+
+console.log("go")
+
+
+// 15 方法的调用 方法调用的中括号里面可以执行语句
+var a = 2
+var num = Math[ a > 0 ? 'ceil' : 'floor'](-3.4)
+console.log(num)
+
+var obj = {
+    a: 1,
+    b: 2
+}
+console.log(obj[a > 0 ? 'a' : 'b'])
+
+
+
+
+
+
+
+
+
+
+
