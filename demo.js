@@ -257,7 +257,12 @@ console.log(min)
 
 
 
+// 17 getboundingclientrect方法，获取元素距浏览器可视区的距离
+var box = document.querySelector("#box")
+console.log(box.getBoundingClientRect())
 
 
-
-
+// 18 文本合成语音
+var speechSU = new window.SpeechSynthesisUtterance();
+speechSU.text = '你好，世界！';
+window.speechSynthesis.speak(speechSU);
