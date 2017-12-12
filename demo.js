@@ -266,3 +266,8 @@ console.log(box.getBoundingClientRect())
 var speechSU = new window.SpeechSynthesisUtterance();
 speechSU.text = '你好，世界！';
 window.speechSynthesis.speak(speechSU);
+
+// 19 Object.defineProperty 
+// 给对象的属性设置特性 是否只读  是否可以被for..in或Object.keys()遍历
+// https://segmentfault.com/a/1190000007434923
+// http://blog.csdn.net/u011884290/article/details/51941605
