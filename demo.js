@@ -1,4 +1,4 @@
-
+/*
 // 1 强转布尔值
 var x=null;
 var y="";
@@ -271,3 +271,60 @@ window.speechSynthesis.speak(speechSU);
 // 给对象的属性设置特性 是否只读  是否可以被for..in或Object.keys()遍历
 // https://segmentfault.com/a/1190000007434923
 // http://blog.csdn.net/u011884290/article/details/51941605
+
+
+// 20 反柯里化技术
+// 柯里化是一种将使用多个参数的一个函数转换成一系列使用一个参数的函数的技术。
+Function.prototype.uncurrying = function() {
+    var _this = this // push
+    return function() {
+        return Function.prototype.call.apply(_this,arguments)
+        // push.call(arguments)
+        // arguments == obj, 'first'
+        // push.call(obj, 'first')
+        // obj.push('first')
+    }
+}
+// 原push方法没有改变
+var obj = {}
+var push = Array.prototype.push.uncurrying();
+push( obj, 'first' )
+console.log(obj)
+console.log(obj[0])
+console.log(obj.length)
+var arr = [1,2,3]
+console.log(arr.indexOf(3)) // 2
+var indexOf = Array.prototype.indexOf.uncurrying()
+console.log(indexOf(arr,3)) // 2
+*/
+
+// 21 函数的arguments处理成数组
+var curry = function () {
+    var args = [].slice.call(arguments)
+    // arguments只有length属性
+    console.log(args)
+};
+curry(1,2)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
