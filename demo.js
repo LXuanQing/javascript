@@ -306,7 +306,8 @@ var curry = function () {
 };
 curry(1,2)
 
-
+// 22  平方
+let num = 2 ** 3; // 8
 
 
 
