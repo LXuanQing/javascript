@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>文件上传</title>
+    <style>
+       #canvas {
+           border: 1px solid red;
+       }
+    </style>
+</head>
+<body>
+    <input type="file" id="files" multiple accept="image/gif,image/jpeg,image/jpg,image/png" />
+    <img src="" id="preview">
+    <div>
+        <canvas id="canvas" width="500" height="300"></canvas>
+    </div>
+</body>
+<script>
+    /**
+        HTML5 进阶系列：文件上传下载
+        FileReader 对象
+        下载文件
+        Blob 对象
+        FileList 对象和 file 对象
+    */
+    var elem = document.getElementById('files');
+    var img = document.getElementById('preview');
+    elem.onchange = function (event) {
+        // console.log(event)
+        var files = event.target.files;
+        var reader = new FileReader();
+        for (var i = 0; i < files.length; i++) {
+            // files[i].size 单位是字节 1kb = 1024字节
+            // 文件类型为 image 并且文件大小小于 200kb
+            if(files[i].type.indexOf('image/') !== -1 && files[i].size < 204800){
+                // console.log(files[i].name);
+                reader.readAsDataURL(files[i]);
+                reader.onload = function (ev) {
+                    img.src = ev.target.result;
+                }
+            }
+        }
+    }
+    var canvas = document.getElementById('canvas');
+    var context = canvas.getContext('2d');
+    context.lineWidth = 5;                            
+    context.strokeStyle = "red";                      
+    context.moveTo(10,10);                             
+    context.lineTo(150,50);                             
+    context.lineTo(10,50);                          
+    context.stroke()
+    // Blob 对象相当于一个容器，可以用于存放二进制数据
+    canvas.toBlob(function(blob){
+        // 使用 createObjectURL 生成地址，格式为 blob:null/fd95b806-db11-4f98-b2ce-5eb16b38ba36
+        // objectURL = URL.createObjectURL(blob || file); File对象或者Blob对象
+        var url = URL.createObjectURL(blob);
+        console.log(url)
+        var a = document.createElement('a');
+        a.download = 'canvas';
+        a.href = url;
+        // 模拟a标签点击进行下载
+        // a.click();
+        // 下载后告诉浏览器不再需要保持这个文件的引用了
+        URL.revokeObjectURL(url);
+    });
+
+    /**
+        btoa 方法对字符串 a 进行编码，不会改变 a 的值，返回一个编码后的值。
+        atob 方法对编码后的字符串进行解码。
+    **/
+    var a = "https://lin-xin.github.io";
+    var b = btoa(a);
+    var c = atob(b);
+    console.log(a);     // https://lin-xin.github.io
+    console.log(b);     // aHR0cHM6Ly9saW4teGluLmdpdGh1Yi5pbw==
+    console.log(c);
+    // 但是参数中带中文，已经超出了8位ASCII编码的字符范围，浏览器就会报错。所以需要先对中文进行 encodeURIComponent 编码处理。
+    var a = "哈喽 世界";
+    var b = btoa(encodeURIComponent(a));
+    var c = decodeURIComponent(atob(b));
+
+    console.log(b);     // JUU1JTkzJTg4JUU1JTk2JUJEJTIwJUU0JUI4JTk2JUU3JTk1JThD
+    console.log(c);     // 哈喽 世界
+</script>
+</html>
