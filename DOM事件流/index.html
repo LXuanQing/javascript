@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>DOM事件流</title>
+    <style>
+        #outer {
+            width: 100px;
+            height: 100px;
+            border: 1px solid red;
+        }
+        #inner {
+            width: 50px;
+            height: 50px;
+            border: 1px solid darkcyan;
+        }
+    </style>
+</head>
+<body>
+    <div id="outer">
+        <div id="inner">inner</div>
+    </div>
+</body>
+<script>
+    var outer = document.getElementById('outer');
+        inner = document.getElementById('inner')
+    document.onclick = function() {
+        console.log('document')
+    }
+    outer.onclick = function() {
+        console.log('outer')
+    }
+    inner.onclick = function() {
+        console.log('inner')
+    }
+    /**
+    根据DOM2级事件规定，事件流应该包括三个阶段，事件捕获阶段，处于目标阶段和事件冒泡阶段。
+    addEventListener第三个参数是否使用捕获，默认false
+    */
+</script>
+</html>

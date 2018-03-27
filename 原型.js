@@ -50,3 +50,26 @@ console.log(f1.prototype.prototype) // undefined
 console.log(o3.__proto__ === f2.prototype) // true
 
 console.log(f2.prototype.__proto__ === Object.prototype) // true
+
+
+
+Object.prototype.a = 8;
+Function.prototype.a = 1;
+function A() {}
+A.prototype.a = 3;
+console.log(A.a)
+console.log(A.prototype.__proto__ === Object.prototype) // true
+console.log(Object.prototype.__proto__) // null
+// https://www.cnblogs.com/shuiyi/p/5305435.html
+
+
+
+
+console.log(A.__proto__ === A.prototype)
+
+// Object.create()
+var obj3 = {
+    a: 2
+}
+var obj4 = Object.create(obj3)
+console.log(obj4.__proto__ === obj3) // true
