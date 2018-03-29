@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>nothing is impossible</title>
+</head>
+<body>
+    
+</body>
+<script>
+    /*
+    Object.prototype.toString = function() {
+        console.log('toString')
+        return 1;
+    }
+    var a = {
+        i: 1,
+        // toString: function() {
+        //     console.log(a)
+        // }
+    }
+    console.log(a) // 打印出q，不调用toString方法
+    a.i = 3
+    a == 1 // 左比较，自动调用toString方法，toString的返回值和1比较
+    console.log(a == 1) // true
+    */
+    // b == 1 && b ==2 && b == 3
+    var b = {
+        i: 1,
+        toString: function() {
+            return b.i++
+        }
+    }
+    if (b == 1 && b == 2 && b == 3) {
+        console.log('Hello World!')
+    }
+
+</script>
+</html>
