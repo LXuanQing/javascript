@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Web Animations </title>
+    <style>
+        #app {
+            width: 150px; 
+            height: 150px;
+            border-radius: 50%;
+            background-color: #cd0000;    
+        }
+    </style>
+</head>
+<body>
+    <div id="app"></div>
+</body>
+<script>
+    let myAnimation = document.getElementById('app').animate([
+        {opacity: 0}, {opacity: 1}], {
+            duration: 3000,
+            delay: 0,
+            fill: 'forwards',
+            // iterations: Infinity
+        })
+        myAnimation.onfinish = function() {
+            console.log('完成')
+        }
+</script>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>返回顶部</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+    <style>
+        .backToTop {
+            display: none;
+            width: 18px;
+            line-height: 1.2;
+            padding: 5px 0;
+            background-color: #000;
+            color: #fff;
+            font-size: 12px;
+            text-align: center;
+            position: fixed;
+            _position: absolute;
+            right: 10px;
+            bottom: 100px;
+            _bottom: "auto";
+            cursor: pointer;
+            opacity: .6;
+            filter: Alpha(opacity=60);
+        }
+    </style>
+</head>
+<body>
+    <h1>1</h1>
+    <h1>1</h1>
+    <h1>1</h1>
+    <h1>1</h1>
+    <h1>1</h1>
+    <h1>1</h1>
+    <h1>1</h1>
+    <h1>1</h1>
+    <h1>1</h1>
+    <h1>1</h1>
+    <h1>1</h1>
+    <h1>1</h1>
+    <h1>1</h1>
+    <h1>1</h1>
+    <h1>1</h1>
+</body>
+<script>
+    (function() {
+    var $backToTopTxt = "返回顶部", 
+        $backToTopEle = $('<div class="backToTop"></div>').appendTo($("body"))
+        .text($backToTopTxt).attr("title", $backToTopTxt).click(function() {
+            $("html, body").animate({ scrollTop: 0 }, 120);
+    }), $backToTopFun = function() {
+        var st = $(document).scrollTop(), winh = $(window).height();
+        (st > 0)? $backToTopEle.show(): $backToTopEle.hide();    
+        //IE6下的定位
+        if (!window.XMLHttpRequest) {
+            $backToTopEle.css("top", st + winh - 166);    
+        }
+    };
+    $(window).bind("scroll", $backToTopFun);
+    $(function() { $backToTopFun(); });
+})();
+</script>
+</html>

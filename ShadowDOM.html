@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ShadowDOM</title>
+    <style type="text/css">
+        /*给影子标签加样式*/
+        video::-webkit-media-controls-panel {
+            background: red;
+        }
+        #div { 
+            width: 300px;
+            height: 50px;
+            border: 1px solid #666;
+            padding: 15px; 
+        }
+        p {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="div">
+        这里是不显示出来的，如果你看到了，说明浏览器不支持ShadowDOM
+        <span class="title" slot="main1">坑位1</span>
+    </div>
+    <button>点我点我</button>
+    <!-- <video controls poster="">
+        <source src="https://media.w3.org/2010/05/sintel/trailer.mp4" type="video/mp4">
+    </video> -->
+    <h1>shadow dom中的template</h1>
+    <template id="tpl">
+        <style>
+            p.tel-p {
+                color: red;
+            }
+        </style>
+        <slot name="main1"></slot>
+        <content select=".title"></content> 
+        <p class="tel-p">template</p>
+    </template>
+</body>
+<script>
+    /*
+    ShadowDOM主要解决一个文档中可能需要大量交互的多个DOM树建立和维护各自功能边界的问题
+    Shadow DOM是指浏览器的一种能力，它允许在文档（document）渲染时插入一棵DOM元素子树，但是这棵子树不在主DOM树中。
+    注意如果ShodowDOM显示出来的话，原先div里面的内容是不会显示出来的，如果显示出来，则说明浏览器不支持shadowDOM。
+    样式不受外部影响，会继承宿主的样式
+    1 封闭性，外部的样式不影响
+    2 事件性， 事件的target是宿主DOM，因为当事件穿过shadown DOM边界的时候，会被重新设定target，以避免暴露shadow DOM子树内部结构。
+    content具有贪婪的属性。如果你写的时候，没有指定select的话，那么在宿主下面定义的元素 将全部显示出来。所以指定select的值，还是有必要的！
+    */
+    function createShadowDOM(elem) {
+        // elem 影子宿主 shadow host
+        // 创建影子根，shadow root
+        var root = elem.createShadowRoot(); // 创建Shadow DOM
+        // 影子根作为影子树的第一个子节点，其他的节点比如p节点都是他的子节点
+        root.innerHTML = '<p>pppp</p>'
+        // root.appendChild(createStyle());
+        // root.appendChild(createInputDiv("姓名","name"));
+        var con = document.getElementById("tpl").content.cloneNode(true);
+        root.appendChild(con);
+
+    }
+    function createStyle() {
+        var style = document.createElement('style');
+        style.textContent = 'div.input-div { height: 30px; width: 250px; }' +
+        'font.input-font { line-height: 30px;font-size: 16px;color: #495A80; margin-right: 10px;}'+
+        'span.input-area {width: 200px;height: 25px;line-height: 25px;padding-left: 5px;display:inline-block;color: #666;font-size: 16px;border: 1px solid #999;border-radius: 3px;}';
+        return style;
+    }
+    function createInputDiv(font, name) {
+        var inputDiv = document.createElement('div');
+        inputDiv.className = 'input-div';
+        inputDiv.innerHTML = "<font class='input-font'>" + font + "</font><span class='input-area' contentEditable='true' id=" + name + "></span>";
+        return inputDiv;
+    }
+
+    createShadowDOM(document.querySelector("#div"));
+    document.querySelector('button').addEventListener('click', function() {
+        alert(document.querySelector('#div').shadowRoot.querySelector('#name').innerHTML);
+    })
+</script>
+</html>

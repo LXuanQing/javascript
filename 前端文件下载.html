@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>文件下载</title>
+    <style>
+        #textarea {
+            width: 300px;
+            height: 300px;
+        }
+    </style>
+</head>
+<body>
+    <h1>借助HTML5 Blob实现文本信息文件下载</h1>
+    <textarea id="textarea"></textarea>
+    <button id="btn">下载</button>
+    <h1>借助Base64实现任意文件下载</h1>
+</body>
+<script>
+    function funDownload(content, filename) {
+        let aE = document.createElement('a');
+        aE.download = filename;
+        aE.style.display = 'none';
+        let blob = new Blob([content]);
+        aE.href = URL.createObjectURL(blob);
+        document.body.appendChild(aE);
+        aE.click();
+        document.body.removeChild(aE);
+    }
+    let textarea = document.getElementById('textarea');
+    let btn = document.getElementById('btn');
+    btn.onclick = function() {
+        funDownload(textarea.value, 'text.html');
+    }
+    // 借助Base64实现任意文件下载
+    function imgDownload(domImg, filename) {
+        // 创建隐藏的可下载链接
+        var eleLink = document.createElement('a');
+        eleLink.download = filename;
+        eleLink.style.display = 'none';
+        // 图片转base64地址
+        var canvas = document.createElement('canvas');
+        var context = canvas.getContext('2d');
+        var img = document.createElement('img');
+        img.src = domImg;
+        img.setAttribute("crossOrigin",'Anonymous')
+        img.onload = function() {
+            var width = img.width;
+            var height = img.height;
+            canvas.width = width;
+            canvas.height = height;
+            context.drawImage(img, 0, 0);
+            eleLink.href = canvas.toDataURL('image/jpg');
+            eleLink.click();
+            document.body.removeChild(eleLink);
+        }
+    }
+    imgDownload('./1.jpg', 'liu.jpg')
+    
+</script>
+</html>

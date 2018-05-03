@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #demo {
+            width: 50%;
+            height: 500px;
+            border: 1px solid #333;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>滚动容器尺寸变化子元素视觉上位置不变JS实现</h1>
+    <div id="demo">
+        <p>　　正午太阳高悬，上海松江，某处二本院校男生宿舍内，电风扇正在吱呀吱呀的旋转。</p>
+        <p>　　仔细一听，还是能在风扇转动声外听到好些呼噜声……床铺凌乱外加大裤衩大背心，酷热的夏天，107男生宿舍内四位“帅哥”正在各自的床铺上酣睡。</p>
+        <p>　　忽然之间，在上铺的陈慕睁开了眼睛，他如同做噩梦惊醒一般，直接是一个激灵就坐直了身子！</p>
+        <p>　　直直的盯着窗外，陈慕脸上写满了惊恐和茫然。</p>
+        <p>　　“我怎么会睡在这里？这是建桥大学？”</p>
+        <p>　　下铺是黄伟聪……红裤衩，排骨胸，还有那猥琐的长相，这正是他曾经大一的下铺舍友！</p>
+        <p>　　远点的地方，冬子，超胜，这两个家伙也都是袒胸露乳，呼呼大睡……</p>
+        <p>　　“发生了什么？我不是被车给撞飞了？”</p>
+        <p>　　许铎和王子豪的床铺则是空着，这两货估计是一日既往的在肯德基蹭空调。</p>
+        <p>　　自己的墙上挂着伊泽瑞尔的海报，冬子的头上则是他最喜欢的大幂幂……</p>
+        <p>　　“我靠，我在做梦？”</p>
+        <p>　　陈慕被吓了一跳，额头也有汗珠微微沁出，显然是在看到这熟悉的一幕后，内心泛起了滔天巨浪！</p>
+        <p>　　“我这是穿越重生了？”</p>
+        <p>　　陈慕目瞪口呆，有些惊喜又有些蛋疼的苦笑起来……他是来自于17年的2月啊。</p>
+        <p>　　他记得很清楚，国内的皮城守备和扭曲丛林开了单双排模式，身为代练的他通过上家是接到了一个肥单。</p>
+        <p>　　他立马去那家熟悉的网咖通宵打单，打算一晚上就交单成功拿到酬金。</p>
+        <p>　　谁想大晚上的流年不利，好几次对面都是硬茬外加己方智商下线，弄得他打完单出来已经是早上八点。</p>
+        <p>　　累得不行的他，便下机回家。</p>
+        <p>　　但在路过门口那条交通路时，没太注意红绿灯，被一辆车给直接撞飞在空中……</p>
+        <p>　　他一瞬间便失去了意识，等再次苏醒的时候，已经是在这熟悉的107宿舍，回到了三年半之前！</p>
+        <p>　　……</p>
+        <p>　　“竟然是重生！重新来到了2013年的大一！”</p>
+        <p>　　稍微定了定心神，陈慕只觉得心情澎湃，酸甜苦辣似乎各种情绪都翻涌上来。</p>
+    </div>
+</body>
+<script>
+    var elements = document.elementsFromPoint(250, 300);
+
+    console.log(elements)
+    var eleBox = document.getElementById('demo');
+
+    if (!document.elementsFromPoint) {
+        document.elementsFromPoint = document.msElementsFromPoint;
+    }
+    // 当前最靠近滚动容器上边缘的元素
+    var targetEle = null;
+    // 最上边元素和滚动容器上边缘的偏移大小
+    var topPOffset = false;
+    /**
+    * 存储滚动时候最上边缘元素以及偏移大小
+    */
+    function funStorePos() {
+        var bounce = eleBox.getBoundingClientRect();
+        var pointX = bounce.left + eleBox.clientWidth / 2;
+        var pointY = bounce.top + 1;
+
+        targetEle = document.elementsFromPoint(pointX, pointY)[0];
+
+        if (targetEle == eleBox) {
+            topPOffset = false;
+            return;
+        }
+
+        topPOffset = Math.round(targetEle.getBoundingClientRect().top - bounce.top);
+    }
+    // 滚动时候记录此时最上边缘元素
+    eleBox.addEventListener('scroll', funStorePos);
+    // 尺寸变化时候实时修正滚动位置，使最上边缘元素永远在上边缘
+    window.addEventListener('resize', function () {
+        if (topPOffset === false) {
+            return;
+        }
+
+        var scrollTop = eleBox.scrollTop;
+        // 之前最靠近边缘元素当前的偏移等
+        var currentTopPOffset = Math.round(eleBox.getBoundingClientRect().top) - Math.round(targetEle.getBoundingClientRect().top);
+        // 滚动修正
+        eleBox.scrollTop = scrollTop - currentTopPOffset - topPOffset;
+    });
+</script>
+</html>

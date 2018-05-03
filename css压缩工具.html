@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>css压缩</title>
+    <style>
+        .select-file {
+            margin-bottom: 20px;
+        }
+        .label-upfile {
+            border: 1px solid #f4615c;
+            background-color: #f4615c;
+            color: #fff;
+            cursor: pointer;
+        }
+        .textarea, 
+        .textarea-result {
+            width: 500px;
+            height: 500px;
+            margin: 0 0 0 10px;
+            border: 1px solid #a0b3d6;
+            color: #333;
+            font-size: 13px;
+        }
+        .result {
+            float: right;
+            margin-right: 100px;
+        }
+        #downBtn {
+            cursor: pointer;
+            background-color: #01cf97;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <h1>css在线压缩工具</h1>
+    <div class="select-file">
+        <input id="upfile" type="file" accept="text/*" hidden/>
+        <label class="label-upfile" for="upfile">选择css文件</label>
+    </div>
+    <textarea id="textarea-init" class="textarea"></textarea>
+    <div class="result">
+        <h2>处理结果</h2>
+        <a id="downBtn" download>下载</a>
+        <p id="result-init"></p>
+        <p id="result-current"></p>
+        <p id="result-save"></p>
+        <textarea id="textarea-result" class="textarea-result"></textarea>
+    </div>
+</body>
+<script>
+    // id
+    function $(id) {
+        return document.getElementById(id);
+    }
+    let textarea = $('textarea-init');
+    let textareaResult = $('textarea-result');
+    let downBtn = $('downBtn');
+    let reader = new FileReader();
+    reader.onload = function(event) {
+        textarea.value = event.target.result;
+        // 压缩css
+        minCss();
+        let blob = new Blob([textareaResult.value]);
+        downBtn.href = URL.createObjectURL(blob);
+    }
+    let upfile = $('upfile');
+    upfile.onchange = function(event) {
+        let file = event.target.files[0];
+        if (file) {
+            downBtn.setAttribute('download', file.name.replace(/\.css$/, '-min.css'));
+            reader.readAsText(file);
+        }
+    }
+    // 压缩css
+    function minCss() {
+        let oldValue = textarea.value;
+        let initSize = oldValue.length;
+        // 开始压缩
+        // 1 去除注释
+        oldValue = oldValue.replace(/\/\*((.|\n|\t)*?)\*\//g,""); // 不改变原字符串，返回替换后的值
+        // 2 去掉收尾空格
+        oldValue = oldValue.replace(/(\s)*{\s*/g,"{").replace(/(\s)*}\s*/g,"}"); // body {} div {}
+        // 3 去除样式内部空格
+        oldValue = oldValue.replace(/(\s)*;\s*/g,";");
+        // 4 去除样式名称后面空格
+        oldValue = oldValue.replace(/:(\s)*/g,":");
+        // 5 去除换行符
+        oldValue = oldValue.replace(/(\n|\t)+/g,"");
+        // 6 去除末尾分号
+        oldValue = oldValue.replace(/;}/g,"}");
+        let currentSize = oldValue.length;
+        $('result-init').innerHTML = '源文件大小：' + calSize(initSize) + 'K';
+        $('result-current').innerHTML = '压缩后大小：' + calSize(currentSize) + 'K';
+        $('result-save').innerHTML = '节约大小：' + '<span style="color: red">' + calSize(initSize - currentSize) + 'K</span>';
+        textareaResult.value = oldValue;
+    }
+    // 计算文件大小
+    function calSize(l) {
+        let k = l / 1024;
+        return Math.round(k * 1000) / 1000;
+    }
+</script>
+</html>

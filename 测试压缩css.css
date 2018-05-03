@@ -1,0 +1,32 @@
+/*
+测试压缩css
+*/
+.select-file {
+    margin-bottom: 20px;
+}
+.label-upfile {
+    border: 1px solid #f4615c;
+    background-color: #f4615c;
+    color: #fff;
+    cursor: pointer;
+}
+.textarea, 
+.textarea-result {
+    width: 500px;
+    height: 500px;
+    margin: 0 0 0 10px;
+    border: 1px solid #a0b3d6;
+    color: #333;
+    font-size: 13px;
+}
+.result {
+    float: right;
+    margin-right: 100px;
+}
+
+
+
+
+
+
+

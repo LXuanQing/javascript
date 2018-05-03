@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>条件判断</title>
+</head>
+<body>
+    
+</body>
+<script>
+    button.click(function() {
+        if (!isLogin) {
+            //如果没有登录，打开登录弹框
+            funDoLogin(function() {
+                //登录后重新触发点击事件
+                button.trigger("click");
+            })
+            return;
+        }
+        if (!isBind) {
+            //如果没有绑定，打开绑定弹框
+            funDoBind(function() {
+                //绑定后重新触发点击事件
+                button.trigger("click");
+            });
+            return;
+        }
+        funDoNumberChange();
+    });
+</script>
+</html>
