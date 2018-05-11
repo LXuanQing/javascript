@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>图片裁剪</title>
+</head>
+<body>
+    <img id="cropTestImg" src="http://image.zhangxinxu.com/image/study/s/s512/mm1.jpg" />
+    <p><button id="cropEndBtn" style="position:relative; z-index:1;">确认处理</button></p>
+</body>
+
+<script type="text/javascript" src="./zxx.crop_rotation.js"></script>
+<script type="text/javascript">
+    window.onload = function(){
+        var oEndBtn = document.getElementById("cropEndBtn");
+        var oImg = document.getElementById("cropTestImg");
+        fnImageCropRot(oImg);  
+        oEndBtn.onclick = function(){
+            var x = document.getElementById("cropPosX").value, 
+                y = document.getElementById("cropPosY").value, 
+                w = document.getElementById("cropImageWidth").value, 
+                h = document.getElementById("cropImageHeight").value;
+            alert("\n剪裁横坐标："+x+"\n剪裁纵坐标："+y+"\n剪裁宽度："+w+"\n剪裁高度："+h);
+        };
+    }
+</script>
+</html>
